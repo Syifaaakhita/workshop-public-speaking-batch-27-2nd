@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     generateSeats('bronzeRow', 'B', 50, 'bronze', activeCategory);
 
     // 3. URL Google Apps Script Anda
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxt5gPYojjMTWFaBe2zzngP0ASVHbuwY_JZtmyyyyRVv6q2xsNMoh48LzMDr6dXvUu7gQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyu5GtUrLrf9MOMnFzQL-n6f1LcUBoq78n78Z2iyZpmcbp_rb9Bly8_Pi1lJGjBCqALPQ/exec";
 
     // 4. Otomatis Membaca Kursi Terisi dari Google Sheets
     fetchSeatsFromSheet(SCRIPT_URL);
