@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const paketInput = document.getElementById('paket');
     const pagePackage = paketInput ? paketInput.value.toLowerCase() : '';
 
+    // 1. DETEKSI KATEGORI KURSI AKTIF BERDASARKAN HALAMAN PAKET
     let activeCategory = '';
     if (pagePackage.includes('bronze') || pagePackage.includes('paket 1')) {
         activeCategory = 'bronze';
@@ -11,53 +12,67 @@ document.addEventListener('DOMContentLoaded', function () {
         activeCategory = 'platinum';
     }
 
-    // 1. GENERATE ZONA GOLD (2 Meja @ 5 Seat = 10 Seat)
-    buildRoundTable('table-G1', 'P', 1, 5, 'platinum', activeCategory);
-    buildRoundTable('table-G2', 'P', 6, 5, 'platinum', activeCategory);
+    // 2. GENERATE SEAT MEJA BUNDAR
+    // Zona Gold (2 Meja @ 5 Seat = 10 Seat: G-01 s/d G-10)
+    buildRoundTable('table-G1', 'G', 1, 5, 'platinum', activeCategory);
+    buildRoundTable('table-G2', 'G', 6, 5, 'platinum', activeCategory);
 
-    // 2. GENERATE ZONA SILVER (5 Meja @ 4 Seat = 20 Seat)
+    // Zona Silver (5 Meja @ 4 Seat = 20 Seat: S-01 s/d S-20)
     for (let i = 1; i <= 5; i++) {
         const startNum = (i - 1) * 4 + 1;
         buildRoundTable(`table-S${i}`, 'S', startNum, 4, 'silver', activeCategory);
     }
 
-    // 3. GENERATE ZONA BRONZE (14 Meja @ 5 Seat = 70 Seat)
+    // Zona Bronze (14 Meja @ 5 Seat = 70 Seat: B-01 s/d B-70)
     for (let i = 1; i <= 14; i++) {
         const startNum = (i - 1) * 5 + 1;
         buildRoundTable(`table-B${i}`, 'B', startNum, 5, 'bronze', activeCategory);
     }
 
-    // 4. GOOGLE APPS SCRIPT INTEGRATION
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbztPKk9NTYfvggTLPzjE2092Ol8LzM-6wrg9sCE1xVBhHDXCZX3aY7s6vCkXaU9qlrL8w/exec";
+    // 3. INTEGRASI GOOGLE APPS SCRIPT
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvFwaSbRGkwg01j2eV5xR8VMupSdtesPYC9_WDMP_CbO2FCTVz_GN7atC-bxZH-WuwRw/exec";
     fetchSeatsFromSheet(SCRIPT_URL);
 
-    // 5. FORM SUBMIT HANDLER
+    // 4. HANDLER PENDAFTARAN FORM & WHATSAPP
     const waForm = document.getElementById('waForm');
     if (waForm) {
         waForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            const nama = document.getElementById('nama')?.value.trim();
-            const whatsapp = document.getElementById('whatsapp')?.value.trim();
+
+            const nama = document.getElementById('nama')?.value.trim() || '';
+            const whatsapp = document.getElementById('whatsapp')?.value.trim() || '';
             const paket = paketInput ? paketInput.value : 'Workshop Public Speaking Batch 27';
-            const seatTerpilih = document.getElementById('selectedSeatInput')?.value.trim();
-            const catatan = document.getElementById('catatan')?.value.trim();
+            const seatTerpilih = document.getElementById('selectedSeatInput')?.value.trim() || '';
+            const catatan = document.getElementById('catatan')?.value.trim() || '';
 
             if (!seatTerpilih) {
                 alert('Silakan pilih nomor kursi Anda pada denah terlebih dahulu!');
                 return;
             }
 
+            // Tandai langsung di interface web
             markOccupiedSeats([seatTerpilih]);
 
-            const formData = new FormData();
-            formData.append('nama', nama);
-            formData.append('whatsapp', whatsapp);
-            formData.append('paket', paket);
-            formData.append('seat', seatTerpilih);
-            formData.append('catatan', catatan);
+            // Format data payload aman untuk Google Apps Script (memicu pembagian sheet otomatis)
+            const payload = new URLSearchParams();
+            payload.append('nama', nama);
+            payload.append('whatsapp', whatsapp);
+            payload.append('paket', paket);
+            payload.append('seat', seatTerpilih);
+            payload.append('catatan', catatan);
 
-            fetch(SCRIPT_URL, { method: 'POST', body: formData });
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: payload.toString()
+            })
+            .then(() => console.log('Data pendaftaran berhasil dikirim ke Google Sheets!'))
+            .catch(err => console.error('Gagal mengirim data ke Google Sheets:', err));
 
+            // Buka WhatsApp Admin
             const adminPhone = "6285182723319";
             const message = `Halo Admin, saya ingin mendaftar workshop.%0A%0A` +
                             `*Nama:* ${encodeURIComponent(nama)}%0A` +
@@ -71,6 +86,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+/**
+ * MEMBUAT MEJA BUNDAR & KURSI DINAMIS
+ */
 function buildRoundTable(tableId, prefix, startNum, totalSeats, category, activeCategory) {
     const container = document.getElementById(tableId);
     if (!container) return;
@@ -93,25 +111,39 @@ function buildRoundTable(tableId, prefix, startNum, totalSeats, category, active
             btn.addEventListener('click', function () {
                 document.querySelectorAll('.seat-btn').forEach(s => s.classList.remove('selected'));
                 btn.classList.add('selected');
-                document.getElementById('selectedSeatNum').innerText = seatNum;
-                document.getElementById('selectedSeatInput').value = seatNum;
+                
+                const selectedSeatNumEl = document.getElementById('selectedSeatNum');
+                const selectedSeatInputEl = document.getElementById('selectedSeatInput');
+                if (selectedSeatNumEl) selectedSeatNumEl.innerText = seatNum;
+                if (selectedSeatInputEl) selectedSeatInputEl.value = seatNum;
             });
         }
         container.appendChild(btn);
     }
 }
 
+/**
+ * MEMBACA SELURUH KURSI TERISI DARI GOOGLE SHEETS
+ */
 function fetchSeatsFromSheet(url) {
     fetch(url)
         .then(res => res.json())
-        .then(data => { if (data?.seats) markOccupiedSeats(data.seats); })
-        .catch(err => console.error('Gagal memuat data kursi:', err));
+        .then(data => {
+            if (data && data.seats && Array.isArray(data.seats)) {
+                markOccupiedSeats(data.seats);
+            }
+        })
+        .catch(err => console.error('Gagal memuat data kursi terisi:', err));
 }
 
+/**
+ * MENANDAI KURSI TERISI / SOLD OUT
+ */
 function markOccupiedSeats(seatArray) {
     seatArray.forEach(seatNum => {
         if (!seatNum) return;
-        const btn = document.querySelector(`[data-seat="${seatNum.toString().trim()}"]`);
+        const cleanSeat = seatNum.toString().trim();
+        const btn = document.querySelector(`[data-seat="${cleanSeat}"]`);
         if (btn) {
             btn.classList.add('occupied');
             btn.classList.remove('locked', 'selected');
