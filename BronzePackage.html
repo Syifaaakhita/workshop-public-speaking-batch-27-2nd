@@ -12,22 +12,22 @@
 </head>
 <body>
 
-  <!-- TOP BAR DENGAN LOGO DI KIRI & TOMBOL KEMBALI DI KANAN -->
-<div class="top-bar">
-    <div class="container top-bar-flex">
-        <div class="top-bar-brand" style="display: flex; align-items: center; gap: 8px;">
-            <img src="Asset/CoachSabranFix.png" alt="Logo Coach Sabran" style="height: 28px; width: auto; object-fit: contain;">
+    <!-- TOP BAR DENGAN LOGO DI KIRI & TOMBOL KEMBALI DI KANAN -->
+    <div class="top-bar">
+        <div class="container top-bar-flex">
+            <div class="top-bar-brand" style="display: flex; align-items: center; gap: 8px;">
+                <img src="Asset/CoachSabranFix.png" alt="Logo Coach Sabran" style="height: 28px; width: auto; object-fit: contain;">
+            </div>
+            <a href="index.html" style="color: #cbd5e1; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                ← Kembali ke Utama
+            </a>
         </div>
-        <a href="index.html" style="color: #cbd5e1; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 6px;">
-            ← Kembali ke Utama
-        </a>
     </div>
-</div>
 
     <!-- HEADER HARGA PAKET -->
     <section class="section-padding text-center">
         <div class="container">
-            <span class="badge-tag" style="background: #e2e8f0; color: #334155;">PAKET 1 - BRONZE</span>
+            <span class="badge-tag" style="background: #e2e8f0; color: #334155;">PAKET 1 - BRONZE (70 SEAT)</span>
             <h1 style="margin-top: 10px;">Workshop Public Speaking Batch 27</h1>
             <p class="subtitle-section">Investasi Hemat & Akses Penuh Belajar 2 Hari Bersama Coach Sabran.</p>
 
@@ -40,25 +40,27 @@
         </div>
     </section>
 
-    <!-- SECTION BENEFIT KHUSUS PAKET BRONZE -->
+<!-- SECTION BENEFIT KHUSUS PAKET BRONZE -->
     <div class="benefit-detail-container">
         <h3>🎁 Benefit Khusus Paket Bronze (Rp 3,5 Juta)</h3>
         <ul class="benefit-list">
             <li>✅ <strong>Akses Workshop:</strong> Pelatihan Full 2 Hari (30% Teori & 70% Praktek)</li>
-            <li>✅ <strong>Posisi Duduk:</strong> Area Bronze (Area Belakang - Bebas pilih nomor kursi)</li>
-            <li>✅ <strong>Merchandise Kit:</strong> Buku Modul & Catatan, Pulpen, Sticker Pack, & Lanyard Akses</li>
-            <li>✅ <strong>Fasilitas Digital:</strong> Digital Download Dokumentasi Kegiatan (Day 1 & Day 2)</li>
-            <li>✅ <strong>Sertifikat & Konsumsi:</strong> Sertifikat Non-Akademik (C. PS), Makan Siang, & Coffee Break</li>
+            <li>🏨 <strong>Fasilitas Inap:</strong> Include Menginap (Kamar Twin Sharing) + Breakfast</li>
+            <li>📍 <strong>Posisi Duduk:</strong> Area Bronze (Bebas pilih nomor kursi B-01 s/d B-70)</li>
+            <li>🛍️ <strong>Merchandise Kit:</strong> Totebag Eksklusif, Buku Modul, & Alat Tulis</li>
+            <li>📁 <strong>Fasilitas Digital:</strong> Digital File Dokumentasi Kegiatan (Hari 1 & Hari 2)</li>
+            <li>📜 <strong>Sertifikat & Konsumsi:</strong> Sertifikat Non-Akademik (C. PS), Makan Siang, & Coffee Break</li>
+            <li>🎁 <strong>Bonus Doorprize:</strong> Kesempatan memenangkan iPad Air 5 & Voucher Belanja/Hotel</li>
         </ul>
     </div>
 
     <!-- SECTION SARAN PAKET LAINNYA (UPSELL) -->
     <div class="upsell-container">
-        <h4>💡 Butuh Penginapan Hotel & Position Seat Lebih Depan?</h4>
-        <p>Tingkatkan ke Paket Silver (Rp 5,5 Juta) untuk mendapatkan kamar menginap di hotel bintang & posisi duduk baris tengah!</p>
+        <h4>💡 Ingin Duduk Lebih Depan atau Benefit Exclusive Dinner?</h4>
+        <p>Tingkatkan ke Paket Silver (Rp 4,5 Juta) untuk posisi tengah, atau Paket Gold (Rp 5,5 Juta) untuk VIP front seat + Dinner!</p>
         <div class="upsell-buttons">
-            <a href="SilverPackage.html" class="btn-upsell">Lihat Paket Silver (Rp 5.5M) →</a>
-            <a href="GoldPackage.html" class="btn-upsell-secondary">Lihat Paket Gold (Rp 7.5M)</a>
+            <a href="SilverPackage.html" class="btn-upsell">Lihat Paket Silver (Rp 4.5M) →</a>
+            <a href="GoldPackage.html" class="btn-upsell-secondary">Lihat Paket Gold (Rp 5.5M)</a>
         </div>
     </div>
 
@@ -66,7 +68,7 @@
     <section id="pendaftaran" class="pendaftaran-section">
         <div class="form-container">
             <h2>Pendaftaran Paket Bronze (Rp 3,5 Juta)</h2>
-            <p class="subtitle">Isi data diri Anda dan klik nomor kursi Bronze yang Anda inginkan pada denah di bawah.</p>
+            <p class="subtitle-section" style="font-size: 0.95rem; text-align: center;">Isi data diri Anda dan pilih nomor kursi Bronze yang Anda inginkan pada denah di bawah.</p>
 
             <form id="waForm">
                 <input type="hidden" id="paket" value="Paket Bronze (Rp 3.500.000)">
@@ -81,38 +83,84 @@
                     <input type="tel" id="whatsapp" class="form-control" placeholder="Contoh: 081234567890" required>
                 </div>
 
-                <!-- DENAH KURSI INTERAKTIF (KHUSUS BRONZE ACTIVE) -->
-                <div class="seat-container">
-                    <div class="stage">PANGGUNG UTAMA (STAGE)</div>
+        <div class="seat-container">
+    <!-- PANGGUNG UTAMA / STAGE -->
+    <div class="stage">STAGE / PANGGUNG UTAMA</div>
 
-                    <!-- PETUNJUK ZONA -->
-                    <div class="seat-legend">
-                        <div class="legend-item"><span class="seat-sample bronze"></span> Area Paket Anda (Bisa Dipilih)</div>
-                        <div class="legend-item"><span class="seat-sample locked"></span> Terkunci / Paket Lain</div>
-                        <div class="legend-item"><span class="seat-sample occupied"></span> Terisi / Sold Out</div>
-                    </div>
+    <!-- VENUE MAIN LAYOUT GRID -->
+    <div class="venue-inner-layout">
 
-                    <div class="seating-area">
-                        <!-- ZONA PLATINUM / GOLD (LOCKED) -->
-                        <div class="zone-header locked-zone">ZONA PLATINUM / GOLD (Khusus Paket Gold)</div>
-                        <div class="seat-row" id="platinumRow"></div>
-
-                        <!-- ZONA SILVER (LOCKED) -->
-                        <div class="zone-header locked-zone">ZONA SILVER (Khusus Paket Silver)</div>
-                        <div class="seat-row" id="silverRow"></div>
-
-                        <!-- ZONA BRONZE (ACTIVE UNTUK BRONZE PACKAGE) -->
-                        <div class="zone-header active-zone">ZONA BRONZE (Klik Kursi Anda)</div>
-                        <div class="seat-row" id="bronzeRow"></div>
-                    </div>
-
-                    <!-- RINGKASAN & INPUT HIDDEN UTAMA -->
-                    <div class="seat-summary">
-                        <p>Nomor Kursi Terpilih: <strong id="selectedSeatNum" style="color: #38bdf8;">Belum dipilih</strong></p>
-                        <input type="hidden" id="selectedSeatInput" name="selectedSeatInput" required>
-                    </div>
+        <!-- ZONA GOLD (2 MEJA BUNDAR - 10 SEAT) -->
+        <div class="zone-section gold-zone-section">
+            <div class="zone-header" style="color: #f59e0b;">ZONA GOLD (P-01 s/d P-10) • 2 MEJA (5 SEAT/MEJA)</div>
+            <div class="table-grid">
+                <div class="round-table">
+                    <div class="table-center">Meja G1</div>
+                    <div class="seats-circle seats-5" id="table-G1"></div>
                 </div>
+                <div class="round-table">
+                    <div class="table-center">Meja G2</div>
+                    <div class="seats-circle seats-5" id="table-G2"></div>
+                </div>
+            </div>
+        </div>
 
+        <!-- ZONA SILVER (5 MEJA BUNDAR - 20 SEAT) -->
+        <div class="zone-section silver-zone-section">
+            <div class="zone-header" style="color: #3b82f6;">ZONA SILVER (S-01 s/d S-20) • 5 MEJA (4 SEAT/MEJA)</div>
+            <div class="table-grid">
+                <div class="round-table">
+                    <div class="table-center">Meja S1</div>
+                    <div class="seats-circle seats-4" id="table-S1"></div>
+                </div>
+                <div class="round-table">
+                    <div class="table-center">Meja S2</div>
+                    <div class="seats-circle seats-4" id="table-S2"></div>
+                </div>
+                <div class="round-table">
+                    <div class="table-center">Meja S3</div>
+                    <div class="seats-circle seats-4" id="table-S3"></div>
+                </div>
+                <div class="round-table">
+                    <div class="table-center">Meja S4</div>
+                    <div class="seats-circle seats-4" id="table-S4"></div>
+                </div>
+                <div class="round-table">
+                    <div class="table-center">Meja S5</div>
+                    <div class="seats-circle seats-4" id="table-S5"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ZONA BRONZE (14 MEJA BUNDAR - 70 SEAT) -->
+        <div class="zone-section bronze-zone-section">
+            <div class="zone-header" style="color: #10b981;">ZONA BRONZE (B-01 s/d B-70) • 14 MEJA (5 SEAT/MEJA)</div>
+            <div class="table-grid">
+                <div class="round-table"><div class="table-center">Meja B1</div><div class="seats-circle seats-5" id="table-B1"></div></div>
+                <div class="round-table"><div class="table-center">Meja B2</div><div class="seats-circle seats-5" id="table-B2"></div></div>
+                <div class="round-table"><div class="table-center">Meja B3</div><div class="seats-circle seats-5" id="table-B3"></div></div>
+                <div class="round-table"><div class="table-center">Meja B4</div><div class="seats-circle seats-5" id="table-B4"></div></div>
+                <div class="round-table"><div class="table-center">Meja B5</div><div class="seats-circle seats-5" id="table-B5"></div></div>
+                <div class="round-table"><div class="table-center">Meja B6</div><div class="seats-circle seats-5" id="table-B6"></div></div>
+                <div class="round-table"><div class="table-center">Meja B7</div><div class="seats-circle seats-5" id="table-B7"></div></div>
+                <div class="round-table"><div class="table-center">Meja B8</div><div class="seats-circle seats-5" id="table-B8"></div></div>
+                <div class="round-table"><div class="table-center">Meja B9</div><div class="seats-circle seats-5" id="table-B9"></div></div>
+                <div class="round-table"><div class="table-center">Meja B10</div><div class="seats-circle seats-5" id="table-B10"></div></div>
+                <div class="round-table"><div class="table-center">Meja B11</div><div class="seats-circle seats-5" id="table-B11"></div></div>
+                <div class="round-table"><div class="table-center">Meja B12</div><div class="seats-circle seats-5" id="table-B12"></div></div>
+                <div class="round-table"><div class="table-center">Meja B13</div><div class="seats-circle seats-5" id="table-B13"></div></div>
+                <div class="round-table"><div class="table-center">Meja B14</div><div class="seats-circle seats-5" id="table-B14"></div></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RINGKASAN SEAT TERPILIH -->
+    <div class="seat-summary">
+        <p style="margin: 0;">Nomor Kursi Terpilih: <strong id="selectedSeatNum" style="color: #38bdf8;">Belum dipilih</strong></p>
+        <input type="hidden" id="selectedSeatInput" name="selectedSeatInput" required>
+    </div>
+</div>
                 <div class="form-group">
                     <label for="catatan">Catatan Tambahan (Opsional)</label>
                     <textarea id="catatan" class="form-control" placeholder="Tuliskan pertanyaan atau catatan tempat duduk jika ada..."></textarea>
@@ -130,5 +178,6 @@
         💬
     </a>
 
-<script src="script.js"></script></body>
+    <script src="script.js?v=25"></script>
+</body>
 </html>
