@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 3. INTEGRASI GOOGLE APPS SCRIPT
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvFwaSbRGkwg01j2eV5xR8VMupSdtesPYC9_WDMP_CbO2FCTVz_GN7atC-bxZH-WuwRw/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby_XJMVo-0s9y3na1k52P-k6Il9b6XMT1EYUsTc4KX1axsakCZ7V6lEcEPAGbeEDDK2uQ/exec";
     fetchSeatsFromSheet(SCRIPT_URL);
 
     // 4. HANDLER PENDAFTARAN FORM & WHATSAPP
