@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 4. GOOGLE APPS SCRIPT INTEGRATION
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxt5gPYojjMTWFaBe2zzngP0ASVHbuwY_JZtmyyyyRVv6q2xsNMoh48LzMDr6dXvUu7gQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznoeQED4MpQNbTEtNMPEwAFJLhep-UaFXJdRipOCfKs0rIJox3HlpO71j-ItaR77cQ/exec";
     fetchSeatsFromSheet(SCRIPT_URL);
 
     // 5. FORM SUBMIT HANDLER
