@@ -30,15 +30,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 3. INTEGRASI GOOGLE APPS SCRIPT
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp7qQ45y9gdANb_fSwEhVcE9Y_qlFHTqntthjYISILJYlDM6sl85PJcqrdfa_Swjwf5A/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyGvpVPtQThqRS_zK-IKznDEQcOnQ0kj44zM82VtOCUd_M2OV4BtDa9RTCl-yyThDCPkw/exec";
     fetchSeatsFromSheet(SCRIPT_URL);
 
-    // 4. HANDLER PENDAFTARAN FORM & WHATSAPP
+    // 4. HANDLER PENDAFTARAN FORM & WHATSAPP (DENGAN DEBOUNCE ANTI-DOUBLE)
     const waForm = document.getElementById('waForm');
+    let isSubmitting = false; // Flag pencegah submit ganda
+
     if (waForm) {
         waForm.addEventListener('submit', function (e) {
             e.preventDefault();
+            e.stopPropagation();
 
+            if (isSubmitting) return; // Hentikan jika sedang dalam proses submit
+
+            const submitBtn = waForm.querySelector('button[type="submit"]');
             const nama = document.getElementById('nama')?.value.trim() || '';
             const whatsapp = document.getElementById('whatsapp')?.value.trim() || '';
             const paket = paketInput ? paketInput.value : 'Workshop Public Speaking Batch 27';
@@ -50,45 +56,65 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Tandai langsung di interface web
+            // Lock status submit & tombol
+            isSubmitting = true;
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = "⏳ Memproses Pendaftaran...";
+            }
+
+            // Tandai kursi terisi langsung di interface web
             markOccupiedSeats([seatTerpilih]);
 
-            // Format data payload aman untuk Google Apps Script (memicu pembagian sheet otomatis)
-            const payload = new URLSearchParams();
-            payload.append('nama', nama);
-            payload.append('whatsapp', whatsapp);
-            payload.append('paket', paket);
-            payload.append('seat', seatTerpilih);
-            payload.append('catatan', catatan);
+            // Formulasi payload JSON
+            const payloadData = {
+                nama: nama,
+                whatsapp: whatsapp,
+                paket: paket,
+                seat: seatTerpilih,
+                catatan: catatan
+            };
 
+            // Kirim request via text/plain (Bebas CORS)
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'text/plain;charset=utf-8'
                 },
-                body: payload.toString()
+                body: JSON.stringify(payloadData)
             })
-            .then(() => console.log('Data pendaftaran berhasil dikirim ke Google Sheets!'))
-            .catch(err => console.error('Gagal mengirim data ke Google Sheets:', err));
+            .then(() => {
+                console.log('Data pendaftaran berhasil dikirim ke Google Sheets!');
+            })
+            .catch(err => {
+                console.error('Gagal mengirim data ke Google Sheets:', err);
+            })
+            .finally(() => {
+                // Buka WhatsApp Admin setelah fetch terlepas
+                const adminPhone = "6285182723319";
+                const message = `Halo Admin, saya ingin mendaftar workshop.%0A%0A` +
+                                `*Nama:* ${encodeURIComponent(nama)}%0A` +
+                                `*No. WhatsApp:* ${encodeURIComponent(whatsapp)}%0A` +
+                                `*Pilihan Paket:* ${encodeURIComponent(paket)}%0A` +
+                                `*Nomor Kursi Terpilih:* ${encodeURIComponent(seatTerpilih)}%0A` +
+                                `*Catatan:* ${encodeURIComponent(catatan ? catatan : '-')}`;
 
-            // Buka WhatsApp Admin
-            const adminPhone = "6285182723319";
-            const message = `Halo Admin, saya ingin mendaftar workshop.%0A%0A` +
-                            `*Nama:* ${encodeURIComponent(nama)}%0A` +
-                            `*No. WhatsApp:* ${encodeURIComponent(whatsapp)}%0A` +
-                            `*Pilihan Paket:* ${encodeURIComponent(paket)}%0A` +
-                            `*Nomor Kursi Terpilih:* ${encodeURIComponent(seatTerpilih)}%0A` +
-                            `*Catatan:* ${encodeURIComponent(catatan ? catatan : '-')}`;
+                window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
 
-            window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
+                // Reset tombol setelah 3 detik
+                setTimeout(() => {
+                    isSubmitting = false;
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = "📱 Kirim Pendaftaran via WhatsApp";
+                    }
+                }, 3000);
+            });
         });
     }
 });
 
-/**
- * MEMBUAT MEJA BUNDAR & KURSI DINAMIS
- */
 function buildRoundTable(tableId, prefix, startNum, totalSeats, category, activeCategory) {
     const container = document.getElementById(tableId);
     if (!container) return;
@@ -122,9 +148,6 @@ function buildRoundTable(tableId, prefix, startNum, totalSeats, category, active
     }
 }
 
-/**
- * MEMBACA SELURUH KURSI TERISI DARI GOOGLE SHEETS
- */
 function fetchSeatsFromSheet(url) {
     fetch(url)
         .then(res => res.json())
@@ -136,9 +159,6 @@ function fetchSeatsFromSheet(url) {
         .catch(err => console.error('Gagal memuat data kursi terisi:', err));
 }
 
-/**
- * MENANDAI KURSI TERISI / SOLD OUT
- */
 function markOccupiedSeats(seatArray) {
     seatArray.forEach(seatNum => {
         if (!seatNum) return;
