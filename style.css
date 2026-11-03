@@ -1098,3 +1098,126 @@ textarea.form-control { resize: vertical; height: 100px; }
 .seats-circle.seats-5 .seat-btn:nth-child(3) { top: 90%; left: calc(100% + 4px); }    /* Kanan Bawah */
 .seats-circle.seats-5 .seat-btn:nth-child(4) { top: 90%; left: -4px; }                /* Kiri Bawah */
 .seats-circle.seats-5 .seat-btn:nth-child(5) { top: 26%; left: -18px; }               /* Kiri Atas */
+
+/* ==========================================
+   GALERI KEGIATAN & DOKUMENTASI
+   ========================================== */
+
+.gallery-section {
+    padding: 60px 20px;
+    background-color: #ffffff;
+}
+
+.gallery-section .section-title {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+}
+
+.gallery-section .section-title h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 12px;
+}
+
+.gallery-section .section-title p {
+    color: #4b5563;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Grid Layout 4 Kolom (Menyesuaikan Ukuran Layar) */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Kartu Galeri */
+.gallery-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    aspect-ratio: 4 / 3; /* Memastikan semua rasio gambar seragam */
+    background-color: #e5e7eb;
+}
+
+/* Stylings Gambar & Efek Zoom */
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+
+/* Overlay Teks Saat Hover */
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+/* Teks Didalam Overlay */
+.gallery-text {
+    color: #ffffff;
+    transform: translateY(10px);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-text {
+    transform: translateY(0);
+}
+
+.gallery-text h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    color: #f59e0b; /* Warna aksen emas */
+}
+
+.gallery-text p {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin: 0;
+    color: #e5e7eb;
+}
+
+/* Penyesuaian untuk Layar Smartphone (Mobile Friendly) */
+@media (max-width: 640px) {
+    .gallery-section {
+        padding: 40px 15px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+        gap: 16px;
+    }
+
+    /* Di layar HP, overlay tetap terlihat tanpa perlu di-hover */
+    .gallery-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 70%, transparent 100%);
+    }
+
+    .gallery-text {
+        transform: translateY(0);
+    }
+}
