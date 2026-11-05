@@ -50,16 +50,17 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(() => console.log('Data pendaftaran terkirim ke Google Sheets!'))
             .catch(err => console.error('Error saat kirim ke Sheets:', err))
             .finally(() => {
-                // Buka WhatsApp Admin dengan format ringkas & bersih
+                // Format pesan WA tanpa emoji bermasalah (menggunakan titik & garis tebal standar)
                 const adminPhone = "6285182723319";
                 const message = `Halo Admin, saya ingin mendaftar *Workshop Public Speaking Batch 27*.%0A%0A` +
-                                `📋 *DATA PESERTA:*%0A` +
-                                `• *Nama Lengkap:* ${encodeURIComponent(nama)}%0A` +
-                                `• *No. WhatsApp:* ${encodeURIComponent(whatsapp)}%0A` +
-                                `• *Email:* ${encodeURIComponent(email)}%0A` +
-                                `• *Profesi/Instansi:* ${encodeURIComponent(pekerjaan)}%0A` +
-                                `• *Kota Asal:* ${encodeURIComponent(kota)}%0A%0A` +
-                                `💬 *Catatan/Target Bicara:* ${encodeURIComponent(catatan ? catatan : '-')}`;
+                                `*DATA PESERTA:*%0A` +
+                                `• Nama Lengkap: ${encodeURIComponent(nama)}%0A` +
+                                `• No. WhatsApp: ${encodeURIComponent(whatsapp)}%0A` +
+                                `• Email: ${encodeURIComponent(email)}%0A` +
+                                `• Profesi/Instansi: ${encodeURIComponent(pekerjaan)}%0A` +
+                                `• Kota Asal: ${encodeURIComponent(kota)}%0A%0A` +
+                                `*Catatan/Target Bicara:*%0A` +
+                                `• ${encodeURIComponent(catatan ? catatan : '-')}`;
 
                 window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
 
